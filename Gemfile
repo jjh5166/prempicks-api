@@ -15,11 +15,14 @@ gem 'puma', '~> 4.1'
 # gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+# read fireabase id tokens
 gem 'firebase_id_token', '~> 2.4.0'
+# redis server
 gem 'redis'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
+# read .env file
+gem 'dotenv-rails'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
