@@ -37,6 +37,7 @@ module Api
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       auth_user = FirebaseIdToken::Signature.verify(params[:idToken])
+
       @user = User.find(auth_user['user_id'])
     end
 
