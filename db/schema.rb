@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_013653) do
+ActiveRecord::Schema.define(version: 2020_09_07_224720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "picks", force: :cascade do |t|
+    t.string "user_uid", null: false
+    t.integer "matchday", null: false
+    t.string "team_id", default: "", null: false
+    t.integer "half", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_uid"], name: "index_picks_on_user_uid"
+  end
 
   create_table "users", id: false, force: :cascade do |t|
     t.string "uid", null: false
@@ -26,4 +36,5 @@ ActiveRecord::Schema.define(version: 2020_09_04_013653) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "picks", "users", column: "user_uid", primary_key: "uid"
 end
