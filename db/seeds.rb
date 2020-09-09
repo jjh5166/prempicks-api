@@ -1,8 +1,20 @@
 # frozen_string_literal: true
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+if Matchday.none?
+  (1..38).each do |week|
+    Matchday.create(id: week)
+  end
+  # update locktimes
+end
+
+if Score.none?
+  teams = %w[
+    ARS AVL BHA BUR CHE CRY EVE FUL LEE LEI
+    LIV MCI MUN NEW SHU SOU TOT WBA WHU WOL
+  ]
+  teams.each do |t|
+    (1..38).each do |week|
+      Score.create(team_id: t, matchday_id: week)
+    end
+  end
+end
