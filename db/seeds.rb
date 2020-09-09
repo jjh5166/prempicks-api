@@ -6,3 +6,15 @@ if Matchday.none?
   end
   # update locktimes
 end
+
+if Score.none?
+  teams = %w[
+    ARS AVL BHA BUR CHE CRY EVE FUL LEE LEI
+    LIV MCI MUN NEW SHU SOU TOT WBA WHU WOL
+  ]
+  teams.each do |t|
+    (1..38).each do |week|
+      Score.create(team_id: t, matchday_id: week)
+    end
+  end
+end
