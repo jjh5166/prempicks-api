@@ -18,3 +18,5 @@ if Score.none?
     end
   end
 end
+
+CurrentMatchday.first_or_create!(singleton_guard: 0, matchday: 1) if CurrentMatchday.none?
