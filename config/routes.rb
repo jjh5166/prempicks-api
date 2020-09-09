@@ -2,6 +2,9 @@
 
 Rails.application.routes.draw do
   namespace :api do
-    resource :user, only: %i[create show update]
+    namespace :v1 do
+      resource :user, only: %i[create show update]
+      get '/mypicks' => 'picks#my_picks'
+    end
   end
 end

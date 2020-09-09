@@ -169,6 +169,7 @@ DEPENDENCIES
   byebug
   dotenv-rails
   firebase_id_token (~> 2.4.0)
+  httparty
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
