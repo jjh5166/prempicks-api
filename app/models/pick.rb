@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# every user has 38 picks
 class Pick < ApplicationRecord
   belongs_to :user, foreign_key: 'user_uid'
   validates :user_uid, uniqueness: { scope: :matchday }
