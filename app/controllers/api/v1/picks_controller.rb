@@ -5,9 +5,13 @@ module Api
     # Picks Controller
     class PicksController < ApplicationController
       before_action :set_picks, only: %i[my_picks update]
+      before_action :set_schedule, only: %i[my_picks]
       # GET /mypicks
       def my_picks
-        render json: @picks.as_json(only: %i[matchday team_id])
+        render json: {
+          'picks': @picks.as_json(only: %i[matchday team_id]),
+          'matches': @schedule
+        }
       end
 
       # PATCH /mypicks
@@ -24,9 +28,25 @@ module Api
         @picks = Pick.where(user_uid: auth_user['user_id'])
       end
 
-      # Only allow a trusted parameter "white list" through.
-      def pick_params
-        params.require(:pick).permit(:user_id, :matchday, :team_id)
+      def set_schedule
+        matches_data = FootballData::Client.matches['matches']
+        matches =
+          matches_data.sort_by { |match| [match['matchday'], match['utcDate']] }
+
+        @schedule = Hash[(1..38).collect { |md| [md, []] }]
+        matches.each_slice(10).with_index do |slice, i|
+          slice.each do |match|
+            @schedule[i + 1].push(
+              Hash[
+                'utcDate' => match['utcDate'],
+                'status' => match['status'],
+                'away' => match['awayTeam'],
+                'home' => match['homeTeam'],
+                'score' => match['score']['fullTime']
+              ]
+            )
+          end
+        end
       end
     end
   end
