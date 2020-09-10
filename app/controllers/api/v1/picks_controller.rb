@@ -4,24 +4,25 @@ module Api
   module V1
     # Picks Controller
     class PicksController < ApplicationController
+      before_action :set_picks, only: %i[my_picks update]
       # GET /mypicks
       def my_picks
-        auth_user = FirebaseIdToken::Signature.verify(params[:idToken])
-        @picks = Pick.where(user_uid: auth_user['user_id'])
-
-        render json: @picks
+        render json: @picks.as_json(only: %i[matchday team_id])
       end
 
-      # PATCH/PUT /mypicks
+      # PATCH /mypicks
       def update
-        if @pick.update(pick_params)
-          render json: @pick
-        else
-          render json: @pick.errors, status: :unprocessable_entity
+        params[:picks].each do |pick|
+          @picks.where(matchday: pick[0]).update(team_id: pick[1])
         end
       end
 
       private
+
+      def set_picks
+        auth_user = FirebaseIdToken::Signature.verify(params[:idToken])
+        @picks = Pick.where(user_uid: auth_user['user_id'])
+      end
 
       # Only allow a trusted parameter "white list" through.
       def pick_params
