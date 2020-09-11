@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :firebase do
   namespace :certificates do
     desc "Request Google's x509 certificates when Redis is empty"
