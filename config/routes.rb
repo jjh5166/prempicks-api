@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resource :user, only: %i[create show update]
       get '/mypicks' => 'picks#my_picks'
       patch '/mypicks' => 'picks#update'
+      get '/standings' => 'picks#standings'
     end
   end
 end
