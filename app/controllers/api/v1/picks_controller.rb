@@ -4,8 +4,10 @@ module Api
   module V1
     # Picks Controller
     class PicksController < ApplicationController
+      before_action :authorize
       before_action :set_mypicks, only: %i[my_picks update]
       before_action :set_schedule, only: %i[my_picks]
+
       # GET /mypicks
       def my_picks
         render json: {
@@ -24,8 +26,6 @@ module Api
 
       # GET /standings
       def standings
-        return unless FirebaseIdToken::Signature.verify(params[:idToken])
-
         currently = current_matchday
         all_picks = standings_picks_up_to(current_matchday)
         render json: {
@@ -37,8 +37,7 @@ module Api
       private
 
       def set_mypicks
-        auth_user = FirebaseIdToken::Signature.verify(params[:idToken])
-        @picks = Pick.where(user_uid: auth_user['user_id'])
+        @picks = Pick.where(user_uid: @uid)
       end
 
       def set_schedule
