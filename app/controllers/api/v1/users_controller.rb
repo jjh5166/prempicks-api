@@ -4,6 +4,7 @@ module Api
   module V1
     # Users Controller
     class UsersController < ApplicationController
+      before_action :authorize
       before_action :set_user, only: %i[show update]
 
       # GET /api/user
@@ -13,8 +14,6 @@ module Api
 
       # POST /api/user
       def create
-        return unless FirebaseIdToken::Signature.verify(params[:idToken])
-
         @user = User.new(user_params)
 
         if @user.save
@@ -37,9 +36,7 @@ module Api
 
       # Use callbacks to share common setup or constraints between actions.
       def set_user
-        auth_user = FirebaseIdToken::Signature.verify(params[:idToken])
-
-        @user = User.find(auth_user['user_id'])
+        @user = User.find(@uid)
       end
 
       # Only allow a trusted parameter "white list" through.
