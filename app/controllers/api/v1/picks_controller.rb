@@ -27,10 +27,12 @@ module Api
       # GET /standings
       def standings
         currently = current_matchday
-        all_picks = standings_picks_up_to(current_matchday)
+        picks = standings_picks_up_to(current_matchday)
+        scores = scores_up_to(current_matchday)
         render json: {
           'currentMatchday': currently,
-          'standings': all_picks
+          'standings': picks,
+          'scores': scores
         }
       end
 
@@ -49,6 +51,18 @@ module Api
             @schedule[i + 1].push(match_hash(match))
           end
         end
+      end
+
+      def scores_up_to(matchday)
+        scores_query = Score.where('matchday_id <= ?', matchday).group_by(&:matchday_id)
+        scores_hash = {}
+        scores_query.each do |md, md_scores|
+          scores_hash[md] = {}
+          md_scores.each do |m|
+            scores_hash[md][m.team_id] = m.points
+          end
+        end
+        scores_hash
       end
 
       def match_hash(match)
