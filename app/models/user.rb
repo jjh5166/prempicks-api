@@ -3,7 +3,7 @@
 # User model with firebase uid as primary key
 class User < ApplicationRecord
   self.primary_key = 'uid'
-  has_many :picks, primary_key: 'uid', foreign_key: 'user_uid'
+  has_many :picks, primary_key: 'uid', foreign_key: 'user_uid', dependent: :destroy
   after_create :seed_picks
   validates :uid, presence: true, uniqueness: {
     message: 'User already exists'
