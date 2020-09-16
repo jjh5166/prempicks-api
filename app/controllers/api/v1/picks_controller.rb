@@ -27,8 +27,8 @@ module Api
       # GET /standings
       def standings
         currently = current_matchday
-        picks = standings_picks_up_to(current_matchday)
-        scores = scores_up_to(current_matchday)
+        picks = standings_picks_up_to(currently)
+        scores = scores_up_to(currently)
         render json: {
           'currentMatchday': currently,
           'standings': picks,
