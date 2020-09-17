@@ -7,5 +7,7 @@ namespace :footballApi do
   task set_matchday: :environment do
     md = FootballData::Client.standings['season']['currentMatchday']
     update_matchday_if_later(md)
+    lock_these = Matchday.where(locked: false).where('lock_time < ?', DateTime.now.utc)
+    lock_these.update(locked: true)
   end
 end
