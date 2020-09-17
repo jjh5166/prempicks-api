@@ -26,11 +26,10 @@ module Api
 
       # GET /standings
       def standings
-        currently = current_matchday
-        picks = standings_picks_up_to(currently)
-        scores = scores_up_to(currently)
+        locked_mds = Matchday.where(locked: true).pluck(:id)
+        picks = standings_picks_for(locked_mds)
+        scores = scores_for(locked_mds)
         render json: {
-          'currentMatchday': currently,
           'standings': picks,
           'scores': scores
         }
@@ -53,8 +52,8 @@ module Api
         end
       end
 
-      def scores_up_to(matchday)
-        scores_query = Score.where('matchday_id <= ?', matchday).group_by(&:matchday_id)
+      def scores_for(matchdays)
+        scores_query = Score.where(matchday_id: matchdays).group_by(&:matchday_id)
         scores_hash = {}
         scores_query.each do |md, md_scores|
           scores_hash[md] = {}
@@ -80,8 +79,8 @@ module Api
         matches_data.sort_by { |match| [match['matchday'], match['utcDate']] }
       end
 
-      def standings_picks_up_to(matchday)
-        User.all.includes(:picks).where('picks.matchday <= ?', matchday).references(:picks)
+      def standings_picks_for(matchdays)
+        User.all.includes(:picks).where('picks.matchday =? ', matchdays).references(:picks)
             .map do |user|
           { name: user.team_name, picks: user.picks.map do |pick|
             { matchday: pick.matchday, team_id: pick.team_id }
