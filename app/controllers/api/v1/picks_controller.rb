@@ -80,7 +80,7 @@ module Api
       end
 
       def standings_picks_for(matchdays)
-        User.all.includes(:picks).where('picks.matchday =? ', matchdays).references(:picks)
+        User.all.includes(:picks).where(picks: {matchday: matchdays}).references(:picks)
             .map do |user|
           { name: user.team_name, picks: user.picks.map do |pick|
             { matchday: pick.matchday, team_id: pick.team_id }
