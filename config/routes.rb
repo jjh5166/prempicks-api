@@ -9,4 +9,9 @@ Rails.application.routes.draw do
       get '/standings' => 'picks#standings'
     end
   end
+  if Rails.env.development?
+    require 'sidekiq/web'
+    require 'sidekiq-scheduler/web'
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end

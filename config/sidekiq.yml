@@ -1,0 +1,12 @@
+:verbose: false
+:concurrency: 7
+
+:timeout: 8
+:queues:
+  - [default, 4]
+  - [mailers, 2]
+:schedule:
+  firebase_cert_req:
+    cron: '0 */30 * * * *'
+    class: FirebaseCertReqJob
+    queue: default
