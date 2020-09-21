@@ -11,10 +11,10 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
-# sidekiq for background jobs
-gem 'sidekiq'
-# sidekiq scheduler
-gem 'sidekiq-scheduler'
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+# gem 'jbuilder', '~> 2.7'
+# Use Active Model has_secure_password
+# gem 'bcrypt', '~> 3.1.7'
 # read fireabase id tokens
 gem 'firebase_id_token', '~> 2.4.0'
 # redis server
@@ -30,7 +30,6 @@ gem 'rack-cors'
 # use httparty for requests
 gem 'httparty'
 group :development, :test do
-  gem 'foreman'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
