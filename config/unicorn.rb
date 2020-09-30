@@ -24,6 +24,10 @@ after_fork do |_server, _worker|
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.establish_connection
 
+  FirebaseIdToken.configure do |config|
+    config.project_ids = [ENV['FIREBASE_APP_ID']]
+  end
+
   Sidekiq.configure_client do |config|
     config.redis = { size: 1 }
   end
