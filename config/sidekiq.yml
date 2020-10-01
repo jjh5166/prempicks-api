@@ -10,3 +10,11 @@
     cron: '0 */30 * * * *'
     class: FirebaseCertReqJob
     queue: default
+  set_matchday:
+    cron: '0 */10 * * * *'
+    class: SetMatchdayJob
+    queue: default
+  update_locktimes:
+    cron: '0 0 * * * *'
+    class: UpdateLocktimesJob
+    queue: default
