@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # request Firebase certificates
-class FirebaseCertReqJob < ApplicationJob
+class FirebaseCertReqJob < ActiveJob::Base
   def perform
     FirebaseIdToken::Certificates.request!
   end

@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require "#{Rails.root}/app/helpers/football_api_helper"
-namespace :footballApi do
+# set current matchday, lock Matchday if lock_time passed
+class SetMatchdayJob < ActiveJob::Base
   include FootballApiHelper
-  desc 'Set Current Matchday'
-  task set_matchday: :environment do
+  def perform
     md = FootballData::Client.standings['season']['currentMatchday']
     update_matchday_if_later(md)
     lock_these = Matchday.where(locked: false).where('lock_time < ?', DateTime.now.utc)
