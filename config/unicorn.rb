@@ -14,6 +14,12 @@ before_fork do |_server, _worker|
 
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.connection.disconnect!
+
+  if defined?($redis)
+    $redis.quit
+    $redis = nil
+    Rails.logger.info('Disconnected from Redis')
+  end
 end
 
 after_fork do |_server, _worker|
@@ -24,13 +30,15 @@ after_fork do |_server, _worker|
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.establish_connection
 
-  FirebaseIdToken.configure do |config|
-    config.project_ids = [ENV['FIREBASE_APP_ID']]
+  unless $redis
+    $redis = Redis.new(url: ENV['REDIS_URL'])
+    Rails.logger.info('Connected to Redis')
   end
 
   Sidekiq.configure_client do |config|
     config.redis = { size: 1 }
   end
+
   Sidekiq.configure_server do |config|
     config.redis = { size: 5 }
   end
