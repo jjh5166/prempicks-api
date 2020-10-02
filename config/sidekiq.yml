@@ -18,3 +18,7 @@
     cron: '0 0 * * * *'
     class: UpdateLocktimesJob
     queue: default
+  queue_reminders:
+    cron: '0 0 */6 * * *'
+    class: QueueRemindersJob
+    queue: default
