@@ -1,5 +1,5 @@
 :verbose: false
-:concurrency: 7
+:concurrency: 4
 
 :timeout: 8
 :queues:
