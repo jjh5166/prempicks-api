@@ -37,6 +37,10 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
+group :production do
+  gem 'scout_apm'
+end
+
 group :development do
   gem 'listen', '~> 3.2'
 end
