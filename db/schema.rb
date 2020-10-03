@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_25_013425) do
+ActiveRecord::Schema.define(version: 2020_10_03_041635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_09_25_013425) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "reminders_queued", default: false
+    t.boolean "lock_queued", default: false
   end
 
   create_table "picks", force: :cascade do |t|

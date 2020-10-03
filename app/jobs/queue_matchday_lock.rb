@@ -8,7 +8,7 @@ class QueueMatchdayLock < ActiveJob::Base
     return unless mds.any?
 
     mds.each do |md|
-      LockMatchday.perform_at(md.lock_time, md.id)
+      md.update(lock_queued: true) if LockMatchday.perform_at(md.lock_time, md.id)
     end
   end
 end
