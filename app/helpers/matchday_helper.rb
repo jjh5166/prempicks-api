@@ -3,7 +3,7 @@
 # Matchday Helper
 module MatchdayHelper
   def matchdays_to_lock
-    Matchday.where(lock_time: Time.current..24.hours.from_now)
+    Matchday.where(lock_time: Time.current..24.hours.from_now, lock_queued: false)
   end
 
   def matchday_to_remind
