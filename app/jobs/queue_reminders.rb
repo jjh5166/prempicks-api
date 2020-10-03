@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# set current matchday, lock Matchday if lock_time passed
-class QueueRemindersJob < ActiveJob::Base
+# queue email reminders job for 24hr before lock time
+class QueueReminders < ActiveJob::Base
   include MatchdayHelper
   def perform
     md = matchday_to_remind
