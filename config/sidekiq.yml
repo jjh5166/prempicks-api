@@ -1,5 +1,5 @@
 :verbose: false
-:concurrency: 4
+:concurrency: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 :timeout: 8
 :queues:
