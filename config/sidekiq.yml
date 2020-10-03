@@ -22,3 +22,7 @@
     cron: '0 0 */6 * * *'
     class: QueueReminders
     queue: default
+  queue_matchday_locks:
+    cron: '0 30 */6 * * *'
+    class: QueueMatchdayLock
+    queue: default
