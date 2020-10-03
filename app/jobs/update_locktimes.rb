@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # update locktimes column in Matchdays table
-class UpdateLocktimesJob < ActiveJob::Base
+class UpdateLocktimes < ActiveJob::Base
   include FootballApiHelper
   def perform
     update_locktimes

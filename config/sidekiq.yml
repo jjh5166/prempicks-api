@@ -8,17 +8,17 @@
 :schedule:
   firebase_cert_req:
     cron: '0 */30 * * * *'
-    class: FirebaseCertReqJob
+    class: FirebaseCertReq
     queue: default
   set_matchday:
-    cron: '0 */10 * * * *'
-    class: SetMatchdayJob
+    cron: '0 15 */1 * * *'
+    class: SetMatchday
     queue: default
   update_locktimes:
-    cron: '0 0 * * * *'
-    class: UpdateLocktimesJob
+    cron: '0 10 5 * * *'
+    class: UpdateLocktimes
     queue: default
   queue_reminders:
     cron: '0 0 */6 * * *'
-    class: QueueRemindersJob
+    class: QueueReminders
     queue: default
