@@ -2,6 +2,7 @@
 
 # Matchday Helper
 module MatchdayHelper
+  include PicksHelper
   def matchdays_to_lock
     Matchday.where(lock_time: Time.current..24.hours.from_now, lock_queued: false)
   end
@@ -13,6 +14,6 @@ module MatchdayHelper
   def lock_matchday(matchday)
     md = Matchday.find(matchday)
     md.update(locked: true)
-    # autopick_on_lock(matchday)
+    autopick_on_lock(md.id)
   end
 end
