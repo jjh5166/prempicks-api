@@ -5,10 +5,10 @@ FactoryBot.define do
                   LIV MCI MUN NEW SHU SOU TOT WBA WHU WOL ]
 
   factory :user, class: User do
-    uid { Faker::Alphanumeric.alphanumeric(number: 18) }
+    uid { Faker::Alphanumeric.unique.alphanumeric(number: 18) }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    team_name { Faker::Team.name }
-    email { Faker::Internet.email }
+    team_name { Faker::Team.unique.name }
+    email { Faker::Internet.unique.email }
   end
 end
