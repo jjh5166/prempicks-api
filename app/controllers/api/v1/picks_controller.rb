@@ -76,7 +76,7 @@ module Api
 
       def sorted_matches
         matches_data = FootballData::Client.matches['matches']
-        matches_data.sort_by { |match| [match['matchday'], match['utcDate']] }
+        matches_data.sort_by { |match| [match['matchday'], match['status'] != 'POSTPONED' ? 0 : 1, match['utcDate']] }
       end
 
       def standings_picks_for(matchdays)
