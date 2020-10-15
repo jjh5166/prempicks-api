@@ -11,6 +11,7 @@ module Api
       # GET /mypicks
       def my_picks
         render json: {
+          'currentMatchday': CurrentMatchday.find(1).matchday,
           'picks': @picks.as_json(only: %i[matchday team_id]),
           'matches': @schedule
         }
