@@ -30,4 +30,23 @@ RSpec.describe PicksHelper, type: :helper do
       expect(helper.find_pick(test_picks)).to eq('LEI')
     end
   end
+
+  describe '#make_autopick ' do
+    let!(:user) { User.order('RANDOM()').first}
+    let!(:future_pick) {user.picks.find_by(matchday: 23)}
+
+    context 'when an autopick team has been picked in a future matchday' do
+      before do
+        future_pick.update(team_id: 'LIV')
+        helper.make_autopick(user, 'LIV', 21)
+      end
+      it 'updates future picked team to blank string' do
+        be_blank_pick = user.picks.find_by(matchday: 23)
+        expect(be_blank_pick.team_id).to eq('')
+      end
+      it 'successfully autopicks this matchday' do
+        expect(user.picks.find_by(matchday: 21).team_id).to eq('LIV')
+      end
+    end
+  end
 end
