@@ -1,0 +1,127 @@
+{
+  "57": {
+    "name": "Arsenal",
+    "short": "Arsenal",
+    "abv": "ARS"
+  },
+  "58": {
+    "name": "Aston Villa",
+    "short": "Aston Villa",
+    "abv": "AVL"
+  },
+  "61": {
+    "name": "Chelsea",
+    "short": "Chelsea",
+    "abv": "CHE"
+  },
+  "62": {
+    "name": "Everton",
+    "short": "Everton",
+    "abv": "EVE"
+  },
+  "64": {
+    "name": "Liverpool",
+    "short": "Liverpool",
+    "abv": "LIV"
+  },
+  "65": {
+    "name": "Manchester City",
+    "short": "Man City",
+    "abv": "MCI"
+  },
+  "66": {
+    "name": "Manchester United",
+    "short": "Man United",
+    "abv": "MUN"
+  },
+  "67": {
+    "name": "Newcastle United",
+    "short": "Newcastle",
+    "abv": "NEW"
+  },
+  "68": {
+    "name": "Norwich City",
+    "short": "Norwich",
+    "abv": "NOR"
+  },
+  "73": {
+    "name": "Tottenham Hotspur",
+    "short": "Tottenham",
+    "abv": "TOT"
+  },
+  "76": {
+    "name": "Wolverhampton Wanderers",
+    "short": "Wolverhampton",
+    "abv": "WOL"
+  },
+  "328": {
+    "name": "Burnley",
+    "short": "Burnley",
+    "abv": "BUR"
+  },
+  "338": {
+    "name": "Leicester City",
+    "short": "Leicester City",
+    "abv": "LEI"
+  },
+  "340": {
+    "name": "Southampton",
+    "short": "Southampton",
+    "abv": "SOU"
+  },
+  "346": {
+    "name": "Watford",
+    "short": "Watford",
+    "abv": "WAT"
+  },
+  "354": {
+    "name": "Crystal Palace",
+    "short": "Crystal Palace",
+    "abv": "CRY"
+  },
+  "356": {
+    "name": "Sheffield United",
+    "short": "Sheffield Utd",
+    "abv": "SHU"
+  },
+  "397": {
+    "name": "Brighton & Hove Albion",
+    "short": "Brighton",
+    "abv": "BHA"
+  },
+  "563": {
+    "name": "West Ham United",
+    "short": "West Ham",
+    "abv": "WHU"
+  },
+  "1044": {
+    "name": "Bournemouth",
+    "short": "Bournemouth",
+    "abv": "BOU"
+  },
+  "63": {
+    "name": "Fulham",
+    "short": "Fulham",
+    "abv": "FUL"
+  },
+  "715": {
+    "name": "Cardiff City",
+    "short": "Cardiff",
+    "abv": "CAR"
+  },
+  "394": {
+    "name": "Huddersfield Town",
+    "short": "Huddersfield",
+    "abv": "HUD"
+  },
+  "341": {
+    "name": "Leeds United",
+    "short": "Leeds",
+    "abv": "LEE"
+  },
+  "74": {
+    "name": "West Bromwich Albion",
+    "short": "West Brom",
+    "abv": "WBA"
+  }
+}
