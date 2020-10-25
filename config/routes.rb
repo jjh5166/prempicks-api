@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get '/mypicks' => 'picks#my_picks'
       patch '/mypicks' => 'picks#update'
       get '/standings' => 'picks#standings'
+      get '/score-matchday' => 'scores#trigger_score_matchday'
     end
   end
 
