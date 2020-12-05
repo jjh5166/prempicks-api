@@ -18,6 +18,11 @@ module FootballData
       JSON.parse(res.body)
     end
 
+    def self.scheduled_matches
+      res = get('/competitions/2021/matches?status=SCHEDULED', @options)
+      JSON.parse(res.body)
+    end
+
     def self.finished_matches(matchday)
       req_url = "/competitions/2021/matches?matchday=#{matchday}&status=FINISHED"
       res = get(req_url, @options)
