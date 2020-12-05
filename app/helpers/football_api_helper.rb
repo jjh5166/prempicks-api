@@ -3,7 +3,7 @@
 # helpers for football api related tasks
 module FootballApiHelper
   def matchdays_times_for(matchdays)
-    all_matches = FootballData::Client.matches['matches']
+    all_matches = FootballData::Client.scheduled_matches['matches']
 
     matchtimes = Hash[matchdays.collect { |md| [md, []] }]
     all_matches.each do |m|
@@ -20,7 +20,7 @@ module FootballApiHelper
     digits = matchdays.pluck(:id)
     mdtimes = matchdays_times_for(digits)
     matchdays.each do |md|
-      md.update(lock_time: mdtimes[md.id].min)
+      md.update(lock_time: mdtimes[md.id].min) if mdtimes[md.id].any?
     end
   end
 
