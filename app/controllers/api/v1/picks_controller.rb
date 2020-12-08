@@ -32,7 +32,8 @@ module Api
         scores = scores_for(locked_mds)
         render json: {
           'standings': picks,
-          'scores': scores
+          'scores': scores,
+          'userTeam': user_team
         }
       end
 
