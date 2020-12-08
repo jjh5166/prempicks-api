@@ -11,4 +11,8 @@ class ApplicationController < ActionController::API
   def current_matchday
     CurrentMatchday.find(1).matchday
   end
+
+  def user_team
+    User.find(@uid).team_name
+  end
 end
