@@ -16,9 +16,10 @@ module PicksHelper
   end
 
   def auto_pick(matchday, users)
+    half = matchday < 20 ? 1 : 2
     locked_matchdays = Matchday.where(locked: true).pluck(:id)
     users.each do |user|
-      picked = user.picks.where(matchday: locked_matchdays).pluck(:team_id).reject(&:blank?)
+      picked = user.picks.where(matchday: locked_matchdays, half: half).pluck(:team_id).reject(&:blank?)
       to_pick = find_pick(picked)
       make_autopick(user, to_pick, matchday)
     end
