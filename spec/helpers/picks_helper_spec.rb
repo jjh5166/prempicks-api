@@ -48,5 +48,21 @@ RSpec.describe PicksHelper, type: :helper do
         expect(user.picks.find_by(matchday: 21).team_id).to eq('LIV')
       end
     end
+
+    context 'when matchday order deviates' do
+      before do
+        testing_mds = [1, 2, 3, 4, 6, 7]
+        test_picks = user.picks.where(matchday: testing_mds)
+        team_ids = ['LEI', 'ARS', 'MCI', 'LIV', 'WOL', 'CHE']
+        test_picks.each do |pick|
+          pick.update(team_id: team_ids.shift) if pick.team_id == ''
+        end
+        Matchday.where(id: testing_mds).update_all(locked: true)
+      end
+      it 'correct autopick is still made' do
+        helper.auto_pick(5, [user])
+        expect(user.picks.find_by(matchday: 5).team_id).to eq('MUN')
+      end
+    end
   end
 end
