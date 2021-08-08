@@ -20,7 +20,7 @@ module Api
       # PATCH /mypicks
       def update
         params[:picks].each do |pick|
-          @picks.where(matchday: pick[0]).update(team_id: pick[1])
+          @picks.where(matchday: pick[0], season: "2021").update(team_id: pick[1])
         end
         render json: { status: 200, message: 'OK' }
       end
@@ -40,7 +40,7 @@ module Api
       private
 
       def set_mypicks
-        @picks = Pick.where(user_uid: @uid)
+        @picks = Pick.where(user_uid: @uid, season: "2021")
       end
 
       def set_schedule
@@ -55,7 +55,7 @@ module Api
       end
 
       def scores_for(matchdays)
-        scores_query = Score.where(matchday_id: matchdays).group_by(&:matchday_id)
+        scores_query = Score.where(matchday_id: matchdays, season: "2021").group_by(&:matchday_id)
         scores_hash = {}
         scores_query.each do |md, md_scores|
           scores_hash[md] = {}
@@ -82,8 +82,8 @@ module Api
       end
 
       def standings_picks_for(matchdays)
-        User.all.includes(:picks)
-            .where(picks: { matchday: matchdays })
+        User.all.includes(:picks) ##have to add season
+            .where(picks: { matchday: matchdays, season: "2021" })
             .order('picks.matchday DESC')
             .references(:picks)
             .map do |user|

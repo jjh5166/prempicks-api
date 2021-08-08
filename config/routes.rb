@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       patch '/mypicks' => 'picks#update'
       get '/standings' => 'picks#standings'
       get '/score-matchday' => 'scores#trigger_score_matchday'
+      post 'user/opt-in'=> 'users#opt_in'
     end
   end
 
