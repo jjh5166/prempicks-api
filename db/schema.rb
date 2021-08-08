@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_03_041635) do
+ActiveRecord::Schema.define(version: 2021_08_06_082132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_10_03_041635) do
     t.integer "matchday"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "season", default: "0000", null: false
     t.index ["singleton_guard"], name: "index_current_matchdays_on_singleton_guard", unique: true
   end
 
@@ -40,6 +41,7 @@ ActiveRecord::Schema.define(version: 2020_10_03_041635) do
     t.integer "half", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "season", default: "0000", null: false
     t.index ["user_uid"], name: "index_picks_on_user_uid"
   end
 
@@ -49,6 +51,7 @@ ActiveRecord::Schema.define(version: 2020_10_03_041635) do
     t.integer "points", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "season", default: "0000", null: false
     t.index ["matchday_id", "team_id"], name: "score_key", unique: true
     t.index ["matchday_id"], name: "index_scores_on_matchday_id"
   end
