@@ -7,14 +7,12 @@ if Matchday.none?
   # update locktimes
 end
 
-if Score.none?
-  teams = %w[
-    ARS AVL BHA BUR CHE CRY EVE FUL LEE LEI
-    LIV MCI MUN NEW SHU SOU TOT WBA WHU WOL
-  ]
+if Score.where(season: "2021").none?
+  teams = %w[ ARS AVL BRE BHA BUR CHE CRY EVE LEE LEI
+              LIV MCI MUN NEW NOR SOU TOT WAT WHU WOL ]
   teams.each do |t|
     (1..38).each do |week|
-      Score.create(team_id: t, matchday_id: week)
+      Score.create(team_id: t, matchday_id: week, season: "2021")
     end
   end
 end
