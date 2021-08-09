@@ -20,7 +20,7 @@ module Api
       # PATCH /mypicks
       def update
         params[:picks].each do |pick|
-          @picks.where(matchday: pick[0], season: "2021").update(team_id: pick[1])
+          @picks.where(matchday: pick[0]).update(team_id: pick[1])
         end
         render json: { status: 200, message: 'OK' }
       end
