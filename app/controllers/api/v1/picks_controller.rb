@@ -28,13 +28,20 @@ module Api
       # GET /standings
       def standings
         locked_mds = Matchday.where(locked: true).pluck(:id)
-        picks = standings_picks_for(locked_mds)
-        scores = scores_for(locked_mds)
-        render json: {
-          'standings': picks,
-          'scores': scores,
-          'userTeam': user_team
-        }
+        if locked_mds.length > 0
+          picks = standings_picks_for(locked_mds)
+          scores = scores_for(locked_mds)
+          render json: {
+            'standings': picks,
+            'scores': scores,
+            'userTeam': user_team
+          }
+        else
+          team_list = User.where(live: true).pluck(:first_name, :last_name, :team_name)
+          render json: {
+            'teams': team_list
+          }
+        end
       end
 
       private
