@@ -4,7 +4,7 @@
 class Pick < ApplicationRecord
   belongs_to :user, foreign_key: 'user_uid'
   validates :user_uid, uniqueness: { scope: %i[matchday season] }
-  validates :team_id, uniqueness: { scope: %i[half user_uid] }, allow_blank: true, on: :update
+  validates :team_id, uniqueness: { scope: %i[half user_uid season] }, allow_blank: true, on: :update
   default_scope { order(matchday: :asc) }
   attr_readonly :matchday, :user_uid, :half
   validate :update_before_lock
