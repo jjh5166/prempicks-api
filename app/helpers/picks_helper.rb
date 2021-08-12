@@ -4,7 +4,7 @@
 module PicksHelper
   # users who have no selection on matchday
   def users_no_pick(matchday)
-    User.joins(:picks).where('picks.matchday' => matchday, 'picks.team_id' => '')
+    User.where(live: true).joins(:picks).where('picks.matchday' => matchday, 'picks.team_id' => '', 'picks.season' => '2021')
   end
 
   # autopick if there are users without picks on matchday
@@ -19,7 +19,7 @@ module PicksHelper
     half = matchday < 20 ? 1 : 2
     locked_matchdays = Matchday.where(locked: true).pluck(:id)
     users.each do |user|
-      picked = user.picks.where(matchday: locked_matchdays, half: half).pluck(:team_id).reject(&:blank?)
+      picked = user.picks.where(matchday: locked_matchdays, half: half, season: "2021").pluck(:team_id).reject(&:blank?)
       to_pick = find_pick(picked)
       make_autopick(user, to_pick, matchday)
     end
@@ -27,8 +27,8 @@ module PicksHelper
 
   # find pick based on prev years standings
   def find_pick(picks)
-    lastyr = %w[ LIV MCI MUN CHE LEI TOT WOL ARS SHU BUR
-                 SOU EVE NEW CRY BHA WHU AVL LEE WBA FUL]
+    lastyr = %w[ MCI MUN LIV CHE LEI WHU TOT ARS LEE EVE 
+                 AVL NEW WOL CRY SOU BHA BUR NOR WAT BRE ]
     left = lastyr - picks
     left[0]
   end
@@ -36,8 +36,8 @@ module PicksHelper
   # make autopick and clear future pick if needed
   def make_autopick(user, team, matchday)
     half = matchday < 20 ? 1 : 2
-    user&.picks&.find_by(team_id: team, half: half)&.update(team_id: '')
-    pick = user.picks.find_by(matchday: matchday)
+    user&.picks&.find_by(team_id: team, half: half, season: "2021")&.update(team_id: '')
+    pick = user.picks.find_by(matchday: matchday, season: "2021")
     pick.team_id = team
     pick.save(validate: false)
   end
