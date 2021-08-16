@@ -123,5 +123,10 @@
     "name": "West Bromwich Albion",
     "short": "West Brom",
     "abv": "WBA"
+  },
+  "402": {
+    "name": "Brentford",
+    "short": "Brentford",
+    "abv": "BRE"
   }
 }
