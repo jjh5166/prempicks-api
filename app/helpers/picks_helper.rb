@@ -27,10 +27,8 @@ module PicksHelper
 
   # find pick based on prev years standings
   def find_pick(picks)
-    lastyr = %w[ MCI MUN LIV CHE LEI WHU TOT ARS LEE EVE 
-                 AVL NEW WOL CRY SOU BHA BUR NOR WAT BRE ]
-    left = lastyr - picks
-    left[0]
+    remaining = ALL_TEAMS - picks
+    remaining[0]
   end
 
   # make autopick and clear future pick if needed

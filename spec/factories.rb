@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  pick_team = %w[ ARS AVL BHA BUR CHE CRY EVE FUL LEE LEI
-                  LIV MCI MUN NEW SHU SOU TOT WBA WHU WOL ]
+  pick_team = ALL_TEAMS
 
   factory :user, class: User do
     uid { Faker::Alphanumeric.unique.alphanumeric(number: 18) }

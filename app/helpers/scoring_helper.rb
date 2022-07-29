@@ -70,11 +70,11 @@ module ScoringHelper
   end
 
   def top_six?(team)
-    %w[MCI MUN LIV CHE LEI WHU].include?(team)
+    TOP_SIX.include?(team)
   end
 
   def newly_promoted?(team)
-    %w[NOR WAT BRE].include?(team)
+    NEWLY_PROMOTED.include?(team)
   end
 
   def add_bonus_point(scores)
