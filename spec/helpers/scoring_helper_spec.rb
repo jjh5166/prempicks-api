@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ScoringHelper, type: :helper do
   before :all do
-    Score.where(matchday_id: 1, team_id: %w[ARS AVL BUR CHE]).update(points: 1)
+    Score.where(matchday_id: 1, team_id: %w[ARS AVL TOT CHE]).update(points: 1)
     Score.where(matchday_id: 2).update(points: 1)
   end
 

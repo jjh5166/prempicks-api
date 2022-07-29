@@ -9,5 +9,6 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     team_name { Faker::Team.unique.name }
     email { Faker::Internet.unique.email }
+    live { true }
   end
 end

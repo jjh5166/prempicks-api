@@ -12,7 +12,7 @@ RSpec.describe PicksHelper, type: :helper do
 
   describe '#users_no_pick' do
     let(:no_pick_users) { helper.users_no_pick(2) }
-
+    
     it 'returns picks only users without picks' do
       expect(no_pick_users.count).to eq(5)
     end
@@ -26,8 +26,11 @@ RSpec.describe PicksHelper, type: :helper do
 
   describe '#find_pick' do
     it 'returns next team up' do
-      test_picks = %w[CHE MUN MCI LIV ARS]
-      expect(helper.find_pick(test_picks)).to eq('LEI')
+      test_picks = ALL_TEAMS.first(5)
+      expect(helper.find_pick(test_picks)).to eq(ALL_TEAMS[5])
+
+      test_picks = ALL_TEAMS.last(3)
+      expect(helper.find_pick(test_picks)).to eq(ALL_TEAMS[0])
     end
   end
 
@@ -51,18 +54,18 @@ RSpec.describe PicksHelper, type: :helper do
 
     context 'when matchday order deviates' do
       before do
-        testing_mds = [31, 32, 33, 34, 36, 37]
+        testing_mds = [30, 31, 32, 33, 34, 36, 37, 38]
         test_picks = user.picks.where(matchday: testing_mds)
-        team_ids = ['LIV', 'MCI', 'LEI', 'CHE', 'TOT', 'WOL']
+        team_ids = ALL_TEAMS[0..6]+ALL_TEAMS.last(1)
+        puts team_ids
         test_picks.each do |pick|
           pick.update(team_id: team_ids.shift) if pick.team_id == ''
         end
         Matchday.where(id: testing_mds).update_all(locked: true)
       end
       it 'correct autopick is still made' do
-        puts user.picks.where(half: 2).pluck(:team_id)
         helper.auto_pick(35, [user])
-        expect(user.picks.find_by(matchday: 35).team_id).to eq('MUN')
+        expect(user.picks.find_by(matchday: 35).team_id).to eq(ALL_TEAMS[7])
       end
     end
   end
