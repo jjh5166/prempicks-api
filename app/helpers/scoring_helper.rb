@@ -4,7 +4,7 @@
 module ScoringHelper
   # returns array of team_ids for Scores with 0 points
   def unscored_scores(matchday)
-    Score.where(matchday_id: matchday, points: 0, season: "2021").pluck(:team_id)
+    Score.where(matchday_id: matchday, points: 0, season: CURRENT_SEASON).pluck(:team_id)
   end
 
   # returns array of match objects from FootballApi for finished matches
@@ -42,7 +42,7 @@ module ScoringHelper
   end
 
   def score_draw(matchday, teams)
-    Score.where(matchday_id: matchday, team_id: teams, season: "2021").update(points: 1)
+    Score.where(matchday_id: matchday, team_id: teams, season: CURRENT_SEASON).update(points: 1)
   end
 
   def score_non_draw(matchday, home_team, home_goals, away_team, away_goals)
@@ -54,8 +54,8 @@ module ScoringHelper
     add_bonus_point(scores) if (home_goals * away_goals).zero?
     add_bonus_point(scores) & deduct_point(scores) if top_six?(loser)
     add_bonus_point(scores) if newly_promoted?(winner)
-    Score.where(matchday_id: matchday, team_id: winner, season: "2021").update(points: scores.max)
-    Score.where(matchday_id: matchday, team_id: loser, season: "2021").update(points: scores.min)
+    Score.where(matchday_id: matchday, team_id: winner, season: CURRENT_SEASON).update(points: scores.max)
+    Score.where(matchday_id: matchday, team_id: loser, season: CURRENT_SEASON).update(points: scores.min)
   end
 
   # returns array of points for W/L/D results and calculates GD factor
@@ -70,11 +70,11 @@ module ScoringHelper
   end
 
   def top_six?(team)
-    %w[MCI MUN LIV CHE LEI WHU].include?(team)
+    TOP_SIX.include?(team)
   end
 
   def newly_promoted?(team)
-    %w[NOR WAT BRE].include?(team)
+    NEWLY_PROMOTED.include?(team)
   end
 
   def add_bonus_point(scores)

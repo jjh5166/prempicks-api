@@ -55,11 +55,11 @@ module Api
       end
 
       def opt_in_seed_picks
-        if @user.picks.where(season: "2021").length === 0
+        if @user.picks.where(season: CURRENT_SEASON).length === 0
           (1..38).each do |n|
             h = n < 20 ? 1 : 2
-            # to do: get season from cache
-            Pick.new(user_uid: @user.uid, matchday: n, half: h, season: "2021").save(validate: false)
+
+            Pick.new(user_uid: @user.uid, matchday: n, half: h, season: CURRENT_SEASON).save(validate: false)
           end
         end
       end

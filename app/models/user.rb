@@ -20,8 +20,7 @@ class User < ApplicationRecord
   def seed_picks
     (1..38).each do |n|
       h = n < 20 ? 1 : 2
-      # to do: get season from cache
-      Pick.new(user_uid: uid, matchday: n, half: h, season: "2021").save(validate: false)
+      Pick.new(user_uid: uid, matchday: n, half: h, season: CURRENT_SEASON).save(validate: false)
     end
   end
 end

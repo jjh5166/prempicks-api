@@ -8,8 +8,7 @@ class Pick < ApplicationRecord
   default_scope { order(matchday: :asc) }
   attr_readonly :matchday, :user_uid, :half
   validate :update_before_lock
-  validates :team_id, inclusion: { in: %w[ ARS AVL BRE BHA BUR CHE CRY EVE LEE LEI
-                                           LIV MCI MUN NEW NOR SOU TOT WAT WHU WOL ] }, allow_blank: true
+  validates :team_id, inclusion: { in: ALL_TEAMS }, allow_blank: true
 
   private
 

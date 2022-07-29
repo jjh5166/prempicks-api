@@ -47,7 +47,7 @@ module Api
       private
 
       def set_mypicks
-        @picks = Pick.where(user_uid: @uid, season: "2021")
+        @picks = Pick.where(user_uid: @uid, season: CURRENT_SEASON)
       end
 
       def set_schedule
@@ -62,7 +62,7 @@ module Api
       end
 
       def scores_for(matchdays)
-        scores_query = Score.where(matchday_id: matchdays, season: "2021").group_by(&:matchday_id)
+        scores_query = Score.where(matchday_id: matchdays, season: CURRENT_SEASON).group_by(&:matchday_id)
         scores_hash = {}
         scores_query.each do |md, md_scores|
           scores_hash[md] = {}
@@ -90,7 +90,7 @@ module Api
 
       def standings_picks_for(matchdays)
         User.all.includes(:picks) ##have to add season
-            .where(picks: { matchday: matchdays, season: "2021" })
+            .where(picks: { matchday: matchdays, season: CURRENT_SEASON })
             .order('picks.matchday DESC')
             .references(:picks)
             .map do |user|
