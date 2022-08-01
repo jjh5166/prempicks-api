@@ -5,7 +5,7 @@ module Api
     # Users Controller
     class UsersController < ApplicationController
       before_action :authorize
-      before_action :set_user, only: %i[show update, opt_in]
+      before_action :set_user, only: %i[show update opt_in]
 
       # GET /api/user
       def show
@@ -14,7 +14,7 @@ module Api
 
       # POST /api/user
       def create
-        @user = User.new(user_params)
+        @user = User.new(create_user_params)
         # to do: use static value in new method
         @user.update(live: true)
         if @user.save
@@ -26,7 +26,7 @@ module Api
 
       # PATCH/PUT /api/user
       def update
-        if @user.update(user_params)
+        if @user.update(update_user_params)
           render json: @user
         else
           render json: @user.errors, status: :unprocessable_entity
@@ -50,8 +50,12 @@ module Api
       end
 
       # Only allow a trusted parameter "white list" through.
-      def user_params
+      def create_user_params
         params.require(:user).permit(:uid, :email, :first_name, :last_name, :team_name)
+      end
+
+      def update_user_params
+          params.require(:user).permit(:email, :team_name)
       end
 
       def opt_in_seed_picks
