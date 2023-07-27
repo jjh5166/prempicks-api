@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # initial table values used for every season
-CurrentMatchday.first_or_create!(singleton_guard: 0, matchday: 1) if CurrentMatchday.none?
+CurrentMatchday.first_or_create!(singleton_guard: 0, matchday: 1, season: CURRENT_SEASON) if CurrentMatchday.none?
 
 if Matchday.none?
   (1..38).each do |week|

@@ -6,7 +6,11 @@ module FootballData
     include HTTParty
     base_uri 'http://api.football-data.org/v2'
 
-    @options = { headers: { 'X-Auth-Token' => ENV['FOOTBALL_API_KEY'] } }
+    FOOTBALL_API_KEY = ENV['FOOTBALL_API_KEY']
+
+    raise Exception.new "Missing Football Data API key" unless FOOTBALL_API_KEY.present?
+
+    @options = { headers: { 'X-Auth-Token' => FOOTBALL_API_KEY } }
 
     def self.standings
       res = get('/competitions/2021/standings', @options)
