@@ -4,7 +4,7 @@
 module FootballApiHelper
   def matchdays_times_for(matchdays)
     all_matches = FootballData::Client.scheduled_matches['matches']
-    puts "API RESPONSE: #{all_matches}"
+
     matchtimes = Hash[matchdays.collect { |md| [md, []] }]
     all_matches.each do |m|
       next unless matchdays.include?(m['matchday'])
@@ -17,9 +17,7 @@ module FootballApiHelper
   # update locktimes for all unlocked Matchdays
   def update_locktimes
     matchdays = Matchday.where(locked: false)
-    
     digits = matchdays.pluck(:id)
-    puts "matchdays to update #{digits}"
     mdtimes = matchdays_times_for(digits)
     matchdays.each do |md|
       md.update(lock_time: mdtimes[md.id].min) if mdtimes[md.id].any?
