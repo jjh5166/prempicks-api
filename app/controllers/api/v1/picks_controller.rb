@@ -51,11 +51,10 @@ module Api
       end
 
       def set_schedule
-
-        schedule_from_cache = REDIS.get("pick-schedule")
+        schedule_from_cache = REDIS.get('pick-schedule')
         if schedule_from_cache
           @schedule = JSON.parse(schedule_from_cache)
-          puts "Using cache for My Picks Schedule"
+          puts 'Using cache for My Picks Schedule'
         else
           matches = sorted_matches
 
@@ -65,7 +64,7 @@ module Api
               @schedule[i + 1].push(match_hash(match))
             end
           end
-          REDIS.setex("pick-schedule", 86400, @schedule.to_json)
+          REDIS.setex('pick-schedule', 86_400, @schedule.to_json)
         end
       end
 
@@ -97,7 +96,7 @@ module Api
       end
 
       def standings_picks_for(matchdays)
-        User.all.includes(:picks) ##have to add season
+        User.all.includes(:picks) # have to add season
             .where(picks: { matchday: matchdays, season: CURRENT_SEASON })
             .order('picks.matchday DESC')
             .references(:picks)
