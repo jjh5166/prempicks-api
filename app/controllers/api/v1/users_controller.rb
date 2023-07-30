@@ -7,12 +7,12 @@ module Api
       before_action :authorize
       before_action :set_user, only: %i[show update opt_in]
 
-      # GET /api/user
+      # GET /user
       def show
         render json: @user
       end
 
-      # POST /api/user
+      # POST /user
       def create
         @user = User.new(create_user_params)
         # to do: use static value in new method
@@ -24,7 +24,7 @@ module Api
         end
       end
 
-      # PATCH/PUT /api/user
+      # PATCH/PUT /user
       def update
         if @user.update(update_user_params)
           render json: @user
@@ -33,11 +33,11 @@ module Api
         end
       end
 
-      # POST /api/user
+      # POST /user/opt-in
       def opt_in
         if @user.update(live: true)
           opt_in_seed_picks
-          render json: { status: 200, message: 'OK' }
+          render json: @user
         else
           render json: { message: 'There was an error opting in' }, status: 500
         end
