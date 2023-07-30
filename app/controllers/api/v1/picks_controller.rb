@@ -51,13 +51,21 @@ module Api
       end
 
       def set_schedule
-        matches = sorted_matches
 
-        @schedule = Hash[(1..38).collect { |md| [md, []] }]
-        matches.each_slice(10).with_index do |slice, i|
-          slice.each do |match|
-            @schedule[i + 1].push(match_hash(match))
+        schedule_from_cache = REDIS.get("pick-schedule")
+        if schedule_from_cache
+          @schedule = JSON.parse(schedule_from_cache)
+          puts "Using cache for My Picks Schedule"
+        else
+          matches = sorted_matches
+
+          @schedule = Hash[(1..38).collect { |md| [md, []] }]
+          matches.each_slice(10).with_index do |slice, i|
+            slice.each do |match|
+              @schedule[i + 1].push(match_hash(match))
+            end
           end
+          REDIS.setex("pick-schedule", 86400, @schedule.to_json)
         end
       end
 
