@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get '/score-matchday' => 'scores#trigger_score_matchday'
       post 'user/opt-in' => 'users#opt_in'
       get 'epl/schedule' => 'football_api#schedule'
+      get 'epl/table' => 'football_api#table'
     end
   end
 

@@ -19,6 +19,22 @@ module Api
       rescue StandardError => e
         render json: { error: "An error occurred: #{e.message}" }, status: :internal_server_error
       end
+
+      # get /epl/table
+      def table
+        schedule_from_cache = REDIS.get('epl-table')
+        if schedule_from_cache
+          puts 'Using cache for epl table'
+          render json: JSON.parse(schedule_from_cache)
+        else
+          puts 'No EPL table in cache. Requesting...'
+          response = FootballDataV4::Client.standings
+          render json: response
+          REDIS.setex('epl-table', 86_400, response.to_json)
+        end
+      rescue StandardError => e
+        render json: { error: "An error occurred: #{e.message}" }, status: :internal_server_error
+      end
     end
   end
 end
