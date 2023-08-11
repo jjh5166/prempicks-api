@@ -26,3 +26,7 @@
     cron: '0 30 */6 * * *'
     class: QueueMatchdayLock
     queue: default
+  set_daily_slate:
+    cron: '0 0 4 * * *'
+    class: SetDailySlate
+    queue: default

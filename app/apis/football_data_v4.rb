@@ -15,6 +15,12 @@ module FootballDataV4
       JSON.parse(res.body)
     end
 
+    def self.todays_matches
+      today = Date.today.to_s
+      res = get("/competitions/PL/matches?dateFrom=#{today}&dateTo=#{today}", @options)
+      JSON.parse(res.body)
+    end
+
     # def self.matches
     #   res = get('/competitions/PL/matches', @options)
     #   JSON.parse(res.body)
