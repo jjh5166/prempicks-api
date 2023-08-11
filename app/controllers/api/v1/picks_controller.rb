@@ -4,9 +4,11 @@ module Api
   module V1
     # Picks Controller
     class PicksController < ApplicationController
+      include ScoringHelper
       before_action :authorize
       before_action :set_mypicks, only: %i[my_picks update]
       before_action :set_schedule, only: %i[my_picks]
+      after_action :scoring_check, only: %i[standings]
 
       # GET /mypicks
       def my_picks
@@ -105,6 +107,42 @@ module Api
             { matchday: pick.matchday, team_id: pick.team_id }
           end }
         end
+      end
+
+      def scoring_check
+        return unless timestamp_check
+
+        slate_from_redis = REDIS.get('daily-slate')
+        slate = slate_from_redis ? JSON.parse(slate_from_redis) : nil
+        puts 'slate'
+        puts slate
+        return unless slate
+
+        matches_to_score = slate.select do |match|
+          scored = match['scored']
+          date = Time.parse(match['utcDate'])
+
+          # Check if the date is more than 1 hour and 50 minutes in the past
+          time_difference = Time.now.utc - date
+          scored == false && time_difference > (1 * 60 + 50) * 60
+        end
+
+        return if matches_to_score.empty?
+
+        matchday = matches_to_score.first['matchday']
+
+        score_matchday(matchday)
+        # TEMPORARY UNTIL SCORING FIXED
+        REDIS.del('daily-slate')
+      end
+
+      def timestamp_check
+        stored_time_str = REDIS.get('score-check-timestamp')
+        stored_time = Time.parse(stored_time_str)
+
+        current_time = Time.now.utc.to_s
+        REDIS.set('score-check-timestamp', current_time)
+        Time.now.utc - stored_time >= 120
       end
     end
   end
