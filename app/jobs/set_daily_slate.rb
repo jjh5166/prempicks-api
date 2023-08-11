@@ -7,8 +7,9 @@ class SetDailySlate < ActiveJob::Base
     slate = matches.map do |match|
       {
         'id' => match['id'],
-        'scored' => false,
-        'utcDate' => match['utcDate']
+        'matchday' => match['matchday'],
+        'utcDate' => match['utcDate'],
+        'scored' => false
       }
     end
 
