@@ -12,7 +12,8 @@ class SetDailySlate < ActiveJob::Base
         'scored' => false
       }
     end
-
     REDIS.set('daily-slate', slate.to_json)
+    current_time = Time.now.utc.to_s
+    REDIS.set('score-check-timestamp', current_time)
   end
 end
