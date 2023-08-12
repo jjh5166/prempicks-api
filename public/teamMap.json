@@ -82,7 +82,7 @@
   "356": {
     "name": "Sheffield United",
     "short": "Sheffield Utd",
-    "abv": "SHU"
+    "abv": "SHE"
   },
   "397": {
     "name": "Brighton & Hove Albion",
@@ -133,5 +133,10 @@
     "name": "Nottingham Forest",
     "shortName": "Nottingham",
     "abv": "NOT"
+  },
+  "389": {
+    "name": "Luton Town",
+    "shortName": "Luton",
+    "abv": "LUT"
   }
 }
