@@ -138,5 +138,10 @@
     "name": "Luton Town",
     "shortName": "Luton",
     "abv": "LUT"
+  },
+  "349": {
+    "name": "Ipswich Town",
+    "shortName": "Ipswich",
+    "abv": "IPS"
   }
 }
