@@ -97,6 +97,7 @@ module Api
         matches_data.sort_by { |match| [match['matchday'], match['status'] != 'POSTPONED' ? 0 : 1, match['utcDate']] }
       end
 
+      # //no live constraint
       def standings_picks_for(matchdays)
         User.all.includes(:picks) # have to add season
             .where(picks: { matchday: matchdays, season: CURRENT_SEASON })
