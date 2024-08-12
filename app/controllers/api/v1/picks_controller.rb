@@ -30,7 +30,7 @@ module Api
       # GET /standings
       def standings
         locked_mds = Matchday.where(locked: true).pluck(:id)
-        if locked_mds.length > 0
+        if locked_mds.length.positive?
           picks = standings_picks_for(locked_mds)
           scores = scores_for(locked_mds)
           render json: {
@@ -110,32 +110,32 @@ module Api
         end
       end
 
-      def scoring_check
-        return unless timestamp_check
+      # def scoring_check
+      #   return unless timestamp_check
 
-        slate_from_redis = REDIS.get('daily-slate')
-        slate = slate_from_redis ? JSON.parse(slate_from_redis) : nil
-        puts 'slate'
-        puts slate
-        return unless slate
+      #   slate_from_redis = REDIS.get('daily-slate')
+      #   slate = slate_from_redis ? JSON.parse(slate_from_redis) : nil
+      #   puts 'slate'
+      #   puts slate
+      #   return unless slate
 
-        matches_to_score = slate.select do |match|
-          scored = match['scored']
-          date = Time.parse(match['utcDate'])
+      #   matches_to_score = slate.select do |match|
+      #     scored = match['scored']
+      #     date = Time.parse(match['utcDate'])
 
-          # Check if the date is more than 1 hour and 50 minutes in the past
-          time_difference = Time.now.utc - date
-          scored == false && time_difference > (1 * 60 + 50) * 60
-        end
+      #     # Check if the date is more than 1 hour and 50 minutes in the past
+      #     time_difference = Time.now.utc - date
+      #     scored == false && time_difference > (1 * 60 + 50) * 60
+      #   end
 
-        return if matches_to_score.empty?
+      #   return if matches_to_score.empty?
 
-        matchday = matches_to_score.first['matchday']
+      #   matchday = matches_to_score.first['matchday']
 
-        score_matchday(matchday)
-        # TEMPORARY UNTIL SCORING FIXED
-        REDIS.del('daily-slate')
-      end
+      #   score_matchday(matchday)
+      #   # TEMPORARY UNTIL SCORING FIXED
+      #   REDIS.del('daily-slate')
+      # end
 
       def timestamp_check
         stored_time_str = REDIS.get('score-check-timestamp')
