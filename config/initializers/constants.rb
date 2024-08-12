@@ -3,11 +3,11 @@
 # update before each season
 
 # year in which season starts
-CURRENT_SEASON = '2023'
+CURRENT_SEASON = '2024'
 
 # ordered by last years standings for convenience of autopick
-ALL_TEAMS = %w[ MCI ARS MUN NEW LIV BHA AVL TOT BRE FUL 
-                CRY CHE WOL WHU BOU NOT EVE BUR SHE LUT ].freeze
+ALL_TEAMS = %w[MCI ARS LIV AVL TOT CHE NEW MUN WHU CRY
+               BHA BOU FUL WOL EVE BRE NOT LEI IPS SOU].freeze
 
 TOP_SIX = ALL_TEAMS.first(6).freeze
 
