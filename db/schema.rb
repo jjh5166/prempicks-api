@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_09_182043) do
+ActiveRecord::Schema.define(version: 2024_08_16_185015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_08_09_182043) do
   create_table "scores", force: :cascade do |t|
     t.integer "matchday_id", null: false
     t.string "team_id", null: false
-    t.integer "points", default: 0, null: false
+    t.decimal "points", precision: 4, scale: 1, default: "0.0", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "season", default: "0000", null: false
