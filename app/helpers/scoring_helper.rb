@@ -53,7 +53,10 @@ module ScoringHelper
 
     add_half_point(scores) if diff.negative?
     add_bonus_point(scores) if (home_goals * away_goals).zero?
-    add_bonus_point(scores) & deduct_point(scores) if top_six?(loser)
+    if top_six?(loser)
+      add_bonus_point(scores)
+      deduct_point(scores)
+    end
     add_bonus_point(scores) if newly_promoted?(winner)
 
     Score.where(matchday_id: matchday, team_id: winner, season: CURRENT_SEASON).update(points: scores.max)
