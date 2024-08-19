@@ -4,6 +4,7 @@ module Api
   module V1
     # Users Controller
     class UsersController < ApplicationController
+      include PicksHelper
       before_action :authorize
       before_action :set_user, only: %i[show update opt_in]
 
@@ -37,11 +38,13 @@ module Api
       def opt_in
         if @user.update(live: true)
           opt_in_seed_picks
+          opt_in_auto_pick
           render json: @user
         else
           render json: { message: 'There was an error opting in' }, status: 500
         end
       end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.
@@ -55,16 +58,24 @@ module Api
       end
 
       def update_user_params
-          params.require(:user).permit(:email, :team_name)
+        params.require(:user).permit(:email, :team_name)
       end
 
       def opt_in_seed_picks
-        if @user.picks.where(season: CURRENT_SEASON).length === 0
-          (1..38).each do |n|
-            h = n < 20 ? 1 : 2
+        return unless @user.picks.where(season: CURRENT_SEASON).length === 0
 
-            Pick.new(user_uid: @user.uid, matchday: n, half: h, season: CURRENT_SEASON).save(validate: false)
-          end
+        (1..38).each do |n|
+          h = n < 20 ? 1 : 2
+
+          Pick.new(user_uid: @user.uid, matchday: n, half: h, season: CURRENT_SEASON).save(validate: false)
+        end
+      end
+
+      def opt_in_auto_pick
+        locked_mds = Matchday.where(locked: true).pluck(:id)
+
+        locked_mds.each do |matchday|
+          auto_pick(matchday, [@user])
         end
       end
     end
