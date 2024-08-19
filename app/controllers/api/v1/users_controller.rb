@@ -19,6 +19,7 @@ module Api
         # to do: use static value in new method
         @user.update(live: true)
         if @user.save
+          # TODO: send welcome email
           render json: @user, status: :created
         else
           render json: @user.errors, status: :unprocessable_entity
@@ -39,6 +40,7 @@ module Api
         if @user.update(live: true)
           opt_in_seed_picks
           opt_in_auto_pick
+          # TODO: send opt in email
           render json: @user
         else
           render json: { message: 'There was an error opting in' }, status: 500
