@@ -64,7 +64,7 @@ module Api
       end
 
       def opt_in_seed_picks
-        return unless @user.picks.where(season: CURRENT_SEASON).empty?
+        return unless @user.picks.where(season: CURRENT_SEASON).length === 0
 
         (1..38).each do |n|
           h = n < 20 ? 1 : 2
