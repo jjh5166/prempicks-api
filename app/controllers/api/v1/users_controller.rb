@@ -19,6 +19,7 @@ module Api
         # to do: use static value in new method
         @user.update(live: true)
         if @user.save
+          auto_pick_locked_mds
           # TODO: send welcome email
           render json: @user, status: :created
         else
@@ -39,7 +40,7 @@ module Api
       def opt_in
         if @user.update(live: true)
           opt_in_seed_picks
-          opt_in_auto_pick
+          auto_pick_locked_mds
           # TODO: send opt in email
           render json: @user
         else
@@ -73,8 +74,11 @@ module Api
         end
       end
 
-      def opt_in_auto_pick
+      # auto pick up to catch users picks up to time of opt-in / sign-up
+      def auto_pick_locked_mds
         locked_mds = Matchday.where(locked: true).pluck(:id)
+
+        return if locked_mds.empty?
 
         locked_mds.each do |matchday|
           auto_pick(matchday, [@user])
