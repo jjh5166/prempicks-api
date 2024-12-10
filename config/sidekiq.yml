@@ -5,28 +5,29 @@
 :queues:
   - [default, 4]
   - [mailers, 2]
-:schedule:
-  firebase_cert_req:
-    cron: '0 */30 * * * *'
-    class: FirebaseCertReq
-    queue: default
-  set_matchday:
-    cron: '0 15 */1 * * *'
-    class: SetMatchday
-    queue: default
-  update_locktimes:
-    cron: '0 10 5 * * *'
-    class: UpdateLocktimes
-    queue: default
-  queue_reminders:
-    cron: '0 0 */6 * * *'
-    class: QueueReminders
-    queue: default
-  queue_matchday_locks:
-    cron: '0 30 */6 * * *'
-    class: QueueMatchdayLock
-    queue: default
-  set_daily_slate:
-    cron: '0 0 4 * * *'
-    class: SetDailySlate
-    queue: default
+:scheduler:
+  :schedule:
+    firebase_cert_req:
+      cron: '0 */30 * * * *'
+      class: FirebaseCertReq
+      queue: default
+    set_matchday:
+      cron: '0 15 */1 * * *'
+      class: SetMatchday
+      queue: default
+    update_locktimes:
+      cron: '0 10 5 * * *'
+      class: UpdateLocktimes
+      queue: default
+    queue_reminders:
+      cron: '0 0 */6 * * *'
+      class: QueueReminders
+      queue: default
+    queue_matchday_locks:
+      cron: '0 30 */6 * * *'
+      class: QueueMatchdayLock
+      queue: default
+    set_daily_slate:
+      cron: '0 0 4 * * *'
+      class: SetDailySlate
+      queue: default
