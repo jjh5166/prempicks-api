@@ -20,10 +20,23 @@ module Api
 
       # PATCH /mypicks
       def update
-        params[:picks].each do |pick|
-          @picks.where(matchday: pick[0]).update(team_id: pick[1])
+        matchdays_to_update = params[:picks].keys
+        
+        ActiveRecord::Base.transaction do
+          # First clear all picks that are being updated
+          @picks.where(matchday: matchdays_to_update).update_all(team_id: '')
+          
+          # Then set the new values
+          params[:picks].each do |matchday, team_id|
+            @picks.where(matchday: matchday).update(team_id: team_id)
+          end
         end
-        render json: { status: 200, message: 'OK' }
+        
+        # Return the updated picks data
+        render json: {
+          status: 200,
+          picks: @picks.reload.as_json(only: %i[matchday team_id])
+        }
       end
 
       # GET /standings
